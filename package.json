@@ -2,8 +2,10 @@
   "name": "project-nest-gql",
   "version": "0.0.1",
   "description": "Description of your project",
-  "license": "UNLICENSED",
   "main": "dist/main.js",
+  "repository": "https://github.com/wilmerhernandez/backpost",
+  "license": "MIT",
+  "private": true,
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
