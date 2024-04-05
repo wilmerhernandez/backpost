@@ -5,6 +5,13 @@ import * as cors from 'cors'; // Cambiado a importar todo como cors
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+    // Middleware para agregar Apollo-Require-Preflight: 'true' si no está presente
+    app.use((req, res, next) => {
+      if (!req.headers['apollo-require-preflight']) {
+        req.headers['apollo-require-preflight'] = 'true';
+      }
+      next();
+    });
 
   // Configurar CORS con opciones específicas
   app.use(cors({
