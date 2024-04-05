@@ -1,13 +1,10 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import * as csurf from 'csurf';
 import * as cors from 'cors'; // Cambiado a importar todo como cors
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  
-  // Configurar csurf middleware
-  app.use(csurf());
+
 
   // Configurar CORS con opciones específicas
   app.use(cors({
