@@ -10,6 +10,9 @@ async function bootstrap() {
       if (!req.headers['apollo-require-preflight']) {
         req.headers['apollo-require-preflight'] = 'true';
       }
+      if (!req.headers['Content-Type']) {
+        req.headers['Content-Type'] = 'application/graphql';
+      }
       next();
     });
 
