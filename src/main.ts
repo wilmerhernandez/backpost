@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import * as csurf from 'csurf';
-import cors from 'cors';
+import * as cors from 'cors'; // Cambiado a importar todo como cors
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
