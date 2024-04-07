@@ -6,7 +6,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
     // Middleware para agregar Apollo-Require-Preflight: 'true' si no está presente
-    app.use((req, res, next) => {
+/*     app.use((req, res, next) => {
       if (!req.headers['apollo-require-preflight']) {
         req.headers['apollo-require-preflight'] = 'true';
       }
@@ -14,7 +14,7 @@ async function bootstrap() {
         req.headers['Content-Type'] = 'application/graphql';
       }
       next();
-    });
+    }); */
 
   // Configurar CORS con opciones específicas
   app.use(cors({
