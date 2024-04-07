@@ -8,7 +8,7 @@ async function bootstrap() {
     // Middleware para agregar Apollo-Require-Preflight: 'true' si no está presente
     app.use((req, res, next) => {
       if (!req.headers['Content-Type']) {
-        req.headers['Content-Type'] = 'application/graphql';
+        req.headers['Content-Type'] = 'application/json';
       }
       next();
     });
