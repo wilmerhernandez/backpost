@@ -9,6 +9,8 @@ import { NetsolutionsResolver } from './adapters/controllers/netsolutions/netsol
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      playground:true,
+      plugins:[]
     }),
     NetsolutionsResolver
   ],
