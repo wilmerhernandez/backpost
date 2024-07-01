@@ -6,6 +6,12 @@ type Query {
   """it method is for login"""
   login(user: String!, password: String!): String!
 
+  """it method is for countries"""
+  countries: String!
+
+  """it method is for countries"""
+  cities(country: Float!): String!
+
   """it method is for register"""
   register(user: String!, password: String!): String!
 }
