@@ -2,16 +2,38 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type KeyValueDTO {
+  key: Float!
+  value: String!
+}
+
+type ResponseModelCities {
+  status: Float!
+  error: String
+  data: [KeyValueDTO!]
+}
+
+type LoginData {
+  token: String!
+}
+
+type LoginResponse {
+  status: Int!
+  message: String!
+  data: LoginData
+  error: String
+}
+
 type Query {
-  """it method is for login"""
-  login(user: String!, password: String!): String!
+  """This method is for login"""
+  login(user: String!, password: String!): LoginResponse!
+
+  """This method returns a list of countries"""
+  countries: [KeyValueDTO!]!
 
   """it method is for countries"""
-  countries: String!
-
-  """it method is for countries"""
-  cities(country: Float!): String!
+  cities(country: Float!): ResponseModelCities!
 
   """it method is for register"""
-  register(user: String!, password: String!): String!
+  register(user: String!, password: String!): LoginResponse!
 }

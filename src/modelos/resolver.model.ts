@@ -1,16 +1,22 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { Field, Int, ObjectType } from "@nestjs/graphql";
 
 @ObjectType()
-export class loginModel {
+export class LoginData {
+  @Field()
+  token: string;
+}
+
+@ObjectType()
+export class LoginResponse {
   @Field(() => Int)
   status: number;
 
   @Field()
   message: string;
 
-  @Field()
-  error: string;
+  @Field({ nullable: true })
+  data?: LoginData;
 
-  @Field()
-  data: any;
+  @Field({ nullable: true })
+  error?: string;
 }
