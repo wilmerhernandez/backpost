@@ -24,6 +24,11 @@ type LoginResponse {
   error: String
 }
 
+type RegisterResponse {
+  status: Int!
+  message: String!
+}
+
 type Query {
   """This method is for login"""
   login(user: String!, password: String!): LoginResponse!
@@ -35,5 +40,5 @@ type Query {
   cities(country: Float!): ResponseModelCities!
 
   """it method is for register"""
-  register(user: String!, password: String!): LoginResponse!
+  register(user: String!, password: String!, name: String!, phone: String!): RegisterResponse!
 }

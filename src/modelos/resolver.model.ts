@@ -20,3 +20,12 @@ export class LoginResponse {
   @Field({ nullable: true })
   error?: string;
 }
+
+@ObjectType()
+export class RegisterResponse {
+  @Field(() => Int)
+  status: number;
+
+  @Field()
+  message: string;
+}
