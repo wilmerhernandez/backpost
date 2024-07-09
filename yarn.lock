@@ -5465,7 +5465,7 @@ firebase-admin@11.11.0:
     "@google-cloud/firestore" "^6.6.0"
     "@google-cloud/storage" "^6.9.5"
 
-"firebase@^9.1.3 || ^10.0.0":
+firebase@^10.12.3, "firebase@^9.1.3 || ^10.0.0":
   version "10.12.3"
   resolved "https://registry.npmjs.org/firebase/-/firebase-10.12.3.tgz"
   integrity sha512-dO2cQ8eP6RnM2wcGzbxnoljjjMBf1suUrHYFftjSpbPn/8bEx959cwTRDHqBx3MwSzNsg6zZV/wiWydJPhUKgw==

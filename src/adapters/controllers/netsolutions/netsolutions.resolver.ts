@@ -18,15 +18,16 @@ export class NetsolutionsResolver {
 
 
   @Query(() => LoginResponse, { description: 'This method is for login', name: 'login' })
-  login(
+  async login(
     @Args('user') user: string,
     @Args('password') password: string,
-  ): LoginResponse {
+  ): Promise<LoginResponse> {
     let response = new LoginResponse();
+    await (this.loginService.Login(user,password))
     if (user === "admin" && password === "admin") {
       const data = new LoginData();
       data.token = "2jnfsjknfjdsnf";
-
+      
       response.data = data;
       response.message = "Logged in";
       response.status = 200;
@@ -57,10 +58,16 @@ export class NetsolutionsResolver {
     @Args('user') user: string,
     @Args('password') password: string,    
     @Args('name') name: string,
+    @Args('typeDoc') typeDoc: string,
+    @Args('doc') doc: string,
+    @Args('country') country: string,
+    @Args('typeDoCountry') typeDoCountry: string,
+    @Args('DoCountry') DoCountry: string,
     @Args('phone') phone: string,
+    @Args('rol') rol: string,
   ): Promise<RegisterResponse> {
     let response = new RegisterResponse();
-    response = (await this.loginService.createUser(user,password,name,phone));
+    response = (await this.loginService.createUser(user,password,name,phone,typeDoc,doc,country,typeDoCountry,DoCountry,rol));
    
     return response;
   }

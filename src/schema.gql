@@ -40,5 +40,5 @@ type Query {
   cities(country: Float!): ResponseModelCities!
 
   """it method is for register"""
-  register(user: String!, password: String!, name: String!, phone: String!): RegisterResponse!
+  register(user: String!, password: String!, name: String!, typeDoc: String!, doc: String!, country: String!, typeDoCountry: String!, DoCountry: String!, phone: String!, rol: String!): RegisterResponse!
 }

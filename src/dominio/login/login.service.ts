@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import * as admin from 'firebase-admin';
+import * as firebase from 'firebase/app';
+import 'firebase/auth';
 
 
 @Injectable()
@@ -26,9 +28,9 @@ response: {message:string,status:number} = {message:"",status:200};
     if (!this.firebaseInitialized) {
       const objectCryp = require('../../config');
       const serviceAccount = this.base64Decode(objectCryp.data);
-        console.log(serviceAccount,'serviceAccount')
       admin.initializeApp({
         credential: admin.credential.cert(serviceAccount),
+        databaseURL:'https://gnexus-dd24e-default-rtdb.firebaseio.com/'
         // Aquí puedes agregar otras configuraciones de Firebase según sea necesario
       });
 
@@ -37,7 +39,7 @@ response: {message:string,status:number} = {message:"",status:200};
     }
   }
 
-    async createUser(user:string,password:string,name:string,phone:string):Promise<{message:string,status:number}>{
+    async createUser(user:string,password:string,name:string,phone:string,typeDoc:string,doc:string,country:string,typeDoCountry:string,DoCountry:string,rol:string):Promise<{message:string,status:number}>{
         this.initFirebase();
     await admin.auth().createUser({
         email: user,
@@ -50,7 +52,11 @@ response: {message:string,status:number} = {message:"",status:200};
       .then((userRecord) => {
         console.log('Successfully created new user:', userRecord.uid);
         this.response.message = userRecord.uid;
-        console.log('Successfully created new user:', this.response);
+        
+        this.sendData('Users',userRecord.uid,{key:btoa(password),typeDoc,doc,rol})
+        this.sendData('Country',DoCountry,{country,typeDoCountry,DoCountry});
+
+        
       })
       .catch((error) => {
         this.response.message = error.errorInfo.message;
@@ -59,6 +65,29 @@ response: {message:string,status:number} = {message:"",status:200};
       });
     return this.response;
 }
+
+getDatabase() {
+  return admin.database();
+}
+
+ sendData(path: string, key: string, data: any) {
+  const ref = this.getDatabase().ref(path).child(key);
+  ref.set(data);
+}
+
+
+  async Login(email:string,password:string){
+    this.initFirebase();
+  await admin.auth().getUserByEmail(email)
+  .then(async (userRecord) => {
+    console.log(`Successfully fetched user data: ${JSON.stringify(userRecord)}`);
+  })
+  .catch((error) => {
+    console.log('Error fetching user data:', error);
+  });
+}
+
+
 
 
 }
