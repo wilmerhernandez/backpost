@@ -8,6 +8,7 @@ import 'firebase/auth';
 export class LoginService  {
 response: {message:string,status:number} = {message:"",status:200};
     firebaseInitialized: boolean = false;
+  responseDataLogin: { doc: string; key: string; rol: string; typeDoc: string; token?:string};
 
 
     
@@ -70,22 +71,53 @@ getDatabase() {
   return admin.database();
 }
 
+async getData(path: string, key: string): Promise<{ doc: string; key: string; rol: string; typeDoc: string; }> {
+  return new Promise((resolve, reject) => {
+      this.getDatabase().ref(path + "/" + key).on('value', (snapshot) => {
+          const data = snapshot.val();
+          if (data) {
+              resolve(data);
+          } else {
+              resolve({ doc: "", key: "", rol: "", typeDoc: "" });
+          }
+      }, (errorObject) => {
+          console.log('The read failed: ' + errorObject.name);
+          reject({ doc: "", key: "", rol: "", typeDoc: "" });
+      });
+  });
+}
+
  sendData(path: string, key: string, data: any) {
   const ref = this.getDatabase().ref(path).child(key);
   ref.set(data);
 }
 
 
-  async Login(email:string,password:string){
-    this.initFirebase();
-  await admin.auth().getUserByEmail(email)
-  .then(async (userRecord) => {
-    console.log(`Successfully fetched user data: ${JSON.stringify(userRecord)}`);
-  })
-  .catch((error) => {
-    console.log('Error fetching user data:', error);
-  });
+async Login(email: string): Promise<{ doc: string; key: string; rol: string; typeDoc: string; token?: string }> {
+  this.initFirebase();
+  try {
+      const userRecord = await admin.auth().getUserByEmail(email);
+      console.log(`Successfully fetched user data: ${JSON.stringify(userRecord)}`);
+      let token;
+      try {
+          const customToken = await admin.auth().createCustomToken(userRecord.uid);
+          token = customToken;
+          // Send token back to client
+      } catch (error) {
+          console.error('Error creating custom token:', error);
+      }
+      
+      this.responseDataLogin = await this.getData('Users', userRecord.uid);
+      this.responseDataLogin.token = token;
+      console.log(`Successfully fetched user data: ${JSON.stringify(this.responseDataLogin)}`);
+  } catch (error) {
+      console.error('Error fetching user data:', error);
+      this.responseDataLogin = null;
+  }
+
+  return this.responseDataLogin;
 }
+
 
 
 

@@ -4,6 +4,10 @@ import { Field, Int, ObjectType } from "@nestjs/graphql";
 export class LoginData {
   @Field()
   token: string;
+  @Field()
+  pass: string;
+  @Field()
+  rol: string;
 }
 
 @ObjectType()

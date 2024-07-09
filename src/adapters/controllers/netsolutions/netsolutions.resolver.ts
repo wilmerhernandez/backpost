@@ -23,17 +23,18 @@ export class NetsolutionsResolver {
     @Args('password') password: string,
   ): Promise<LoginResponse> {
     let response = new LoginResponse();
-    await (this.loginService.Login(user,password))
-    if (user === "admin" && password === "admin") {
+    let dataResponse = await (this.loginService.Login(user));
+    if (password == atob(dataResponse.key)) {
       const data = new LoginData();
-      data.token = "2jnfsjknfjdsnf";
-      
+      data.token = dataResponse.token;
+      data.pass = "OK";
+      data.rol = dataResponse.rol;
+      response.message = "Login OK";   
       response.data = data;
-      response.message = "Logged in";
       response.status = 200;
     } else {
+      response.message = "Login error";
       response.error = "Login error";
-      response.message = "Not logged in";
       response.status = 100;
     }
     console.log(response,'response');
