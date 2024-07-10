@@ -24,7 +24,7 @@ export class NetsolutionsResolver {
   ): Promise<LoginResponse> {
     let response = new LoginResponse();
     let dataResponse = await (this.loginService.Login(user));
-    if (password == atob(dataResponse.key)) {
+    if (dataResponse || password == atob(dataResponse.key)) {
       const data = new LoginData();
       data.token = dataResponse.token;
       data.pass = "OK";
@@ -61,14 +61,14 @@ export class NetsolutionsResolver {
     @Args('name') name: string,
     @Args('typeDoc') typeDoc: string,
     @Args('doc') doc: string,
-    @Args('country') country: string,
-    @Args('typeDoCountry') typeDoCountry: string,
-    @Args('DoCountry') DoCountry: string,
+    @Args('companyName') companyName: string,
+    @Args('companyTypeDoc') companyTypeDoc: string,
+    @Args('companyDoc') companyDoc: string,
     @Args('phone') phone: string,
     @Args('rol') rol: string,
   ): Promise<RegisterResponse> {
     let response = new RegisterResponse();
-    response = (await this.loginService.createUser(user,password,name,phone,typeDoc,doc,country,typeDoCountry,DoCountry,rol));
+    response = (await this.loginService.createUser(user,password,name,phone,typeDoc,doc,companyName,companyTypeDoc,companyDoc,rol));
    
     return response;
   }
