@@ -31,6 +31,15 @@ type RegisterResponse {
   message: String!
 }
 
+type DataItemDto {
+  key: Int!
+  value: String!
+}
+
+type DataDto {
+  data: [DataItemDto!]!
+}
+
 type Query {
   """This method is for login"""
   login(user: String!, password: String!): LoginResponse!
@@ -42,5 +51,11 @@ type Query {
   cities(country: Float!): ResponseModelCities!
 
   """it method is for register"""
-  register(user: String!, password: String!, name: String!, typeDoc: String!, doc: String!, country: String!, typeDoCountry: String!, DoCountry: String!, phone: String!, rol: String!): RegisterResponse!
+  register(user: String!, password: String!, name: String!, typeDoc: String!, doc: String!, companyName: String!, companyTypeDoc: String!, companyDoc: String!, phone: String!, rol: String!): RegisterResponse!
+
+  """This method returns a list of countries"""
+  typeDocs: DataDto!
+
+  """This method returns a list of countries"""
+  roles: DataDto!
 }
