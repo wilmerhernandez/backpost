@@ -3,13 +3,14 @@ import * as admin from 'firebase-admin';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import { FirebaseService } from '../firebase/firebase.service';
+import { DataUser } from 'src/modelos/resolver.model';
 
 
 @Injectable()
 export class LoginService  {
 response: {message:string,status:number} = {message:"",status:200};
     firebaseInitialized: boolean = false;
-  responseDataLogin: { doc: string; key: string; rol: string; typeDoc: string; token?:string};
+  responseDataLogin: {dataUser:{name:string,email:string}, doc: string; key: string; rol: string; typeDoc: string; token?:string};
 
   constructor(private firebase:FirebaseService){
 
@@ -30,7 +31,7 @@ response: {message:string,status:number} = {message:"",status:200};
       .then((userRecord) => {
         console.log('Successfully created new user:', userRecord.uid);
         this.response.message = userRecord.uid;
-        
+        this.response.status = 200;
         this.firebase.sendData('Users',userRecord.uid,{key:btoa(password),typeDoc,doc,rol})
         this.firebase.sendData('Country',DoCountry,{country,typeDoCountry,DoCountry});
       })
@@ -49,7 +50,7 @@ response: {message:string,status:number} = {message:"",status:200};
 
 
 
-async Login(email: string): Promise<{ doc: string; key: string; rol: string; typeDoc: string; token?: string }> {
+async Login(email: string): Promise<{ dataUser:{name:string,email:string},doc: string; key: string; rol: string; typeDoc: string; token?: string }> {
   this.firebase.initFirebase();
   try {
       const userRecord = await admin.auth().getUserByEmail(email);
@@ -65,6 +66,12 @@ async Login(email: string): Promise<{ doc: string; key: string; rol: string; typ
       
       this.responseDataLogin = await this.firebase.getData('Users', userRecord.uid);
       this.responseDataLogin.token = token;
+      let userData = new DataUser();
+      userData.email = userRecord.email;
+      userData.name =userRecord.displayName;
+      this.responseDataLogin.dataUser = userData;
+      console.log(this.responseDataLogin,'responseDataLogin');
+
       console.log(`Successfully fetched user data: ${JSON.stringify(this.responseDataLogin)}`);
   } catch (error) {
       console.error('Error fetching user data:', error);

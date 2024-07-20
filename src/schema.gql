@@ -2,6 +2,30 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type DataResponse {
+  status: Int!
+  method: String!
+  error: String
+}
+
+type DataUser {
+  name: String!
+  email: String!
+}
+
+type LoginData {
+  token: String
+  pass: String
+  rol: String
+  dataUser: DataUser
+  data: DataResponse
+}
+
+type RegisterResponse {
+  status: Int!
+  message: String!
+}
+
 type KeyValueDTO {
   key: Float!
   value: String!
@@ -11,24 +35,6 @@ type ResponseModelCities {
   status: Float!
   error: String
   data: [KeyValueDTO!]
-}
-
-type LoginData {
-  token: String!
-  pass: String!
-  rol: String!
-}
-
-type LoginResponse {
-  status: Int!
-  message: String!
-  data: LoginData
-  error: String
-}
-
-type RegisterResponse {
-  status: Int!
-  message: String!
 }
 
 type DataItemDto {
@@ -41,21 +47,23 @@ type DataDto {
 }
 
 type Query {
-  """This method is for login"""
-  login(user: String!, password: String!): LoginResponse!
-
   """This method returns a list of countries"""
   countries: [KeyValueDTO!]!
 
   """it method is for countries"""
   cities(country: Float!): ResponseModelCities!
 
-  """it method is for register"""
-  register(user: String!, password: String!, name: String!, typeDoc: String!, doc: String!, companyName: String!, companyTypeDoc: String!, companyDoc: String!, phone: String!, rol: String!): RegisterResponse!
-
   """This method returns a list of countries"""
   typeDocs: DataDto!
 
   """This method returns a list of countries"""
   roles: DataDto!
+}
+
+type Mutation {
+  """This method is for login"""
+  login(user: String!, password: String!): LoginData!
+
+  """This method is for register"""
+  register(user: String!, password: String!, name: String!, typeDoc: String!, doc: String!, companyName: String!, companyTypeDoc: String!, companyDoc: String!, phone: String!, rol: String!): RegisterResponse!
 }
