@@ -2,6 +2,7 @@ import { Resolver, Args, Mutation } from '@nestjs/graphql';
 import { LoginService } from 'src/dominio/login/login.service';
 import { DataUser, LoginData, RegisterResponse } from 'src/modelos/resolver.model';
 import { DataResponse } from './response.dto';
+import { DataItemDto } from 'src/modelos/resources.model';
 
 
 
@@ -23,24 +24,36 @@ export class NetsolutionsResolver {
     let data = new DataResponse();
     let dataUser = new DataUser();
     let dataResponse = await this.loginService.Login(user);
-    console.log(atob(dataResponse.key),"contraseña");
+    console.log(dataResponse,"dataResponse");
+    if(dataResponse){      
     console.log(password,"contraseña");
+      console.log(atob(dataResponse.key),"contraseña");
     if (password == atob(dataResponse.key)) {
       data.status = 200;
       data.method = "Login";
       response.data = data;
       response.pass = "OK";
       response.token = dataResponse.token;
-      response.rol = dataResponse.rol;
+      const rol = new DataItemDto();
+      rol.key = parseInt(dataResponse.rol,10);
+      rol.value = "Super Administrador";
+      response.rol = rol;
       dataUser.email = dataResponse.dataUser.email;
       dataUser.name = dataResponse.dataUser.name;
       response.dataUser = dataUser;
     } else {
       data.status = 400;
       data.method = "Login";
-      data.error = "Error al en usuario o contraseña"
+      data.error = "Error Contraseña incorrecta"
       response.data = data;
     }
+    }else{
+      data.status = 400;
+      data.method = "Login";
+      data.error = "Error Correo incorrecto"
+      response.data = data;
+    }
+
     console.log(response, 'response');
     return response;
   }

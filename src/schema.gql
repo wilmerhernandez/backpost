@@ -8,6 +8,15 @@ type DataResponse {
   error: String
 }
 
+type DataItemDto {
+  key: Int!
+  value: String!
+}
+
+type DataDto {
+  data: [DataItemDto!]!
+}
+
 type DataUser {
   name: String!
   email: String!
@@ -16,7 +25,7 @@ type DataUser {
 type LoginData {
   token: String
   pass: String
-  rol: String
+  rol: DataItemDto
   dataUser: DataUser
   data: DataResponse
 }
@@ -35,15 +44,6 @@ type ResponseModelCities {
   status: Float!
   error: String
   data: [KeyValueDTO!]
-}
-
-type DataItemDto {
-  key: Int!
-  value: String!
-}
-
-type DataDto {
-  data: [DataItemDto!]!
 }
 
 type Query {

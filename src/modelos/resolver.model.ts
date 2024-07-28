@@ -1,5 +1,6 @@
 import { Field, Int, ObjectType } from "@nestjs/graphql";
 import { DataResponse } from "./response.dto";
+import { DataItemDto } from "./resources.model";
 
 
 
@@ -18,7 +19,7 @@ export class LoginData {
   @Field({ nullable: true })
   pass?: string;
   @Field({ nullable: true })
-  rol?: string;  
+  rol?: DataItemDto;  
   @Field({ nullable: true })
   dataUser?: DataUser;
   @Field({ nullable: true })
