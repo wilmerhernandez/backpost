@@ -32,7 +32,7 @@ response: {message:string,status:number} = {message:"",status:200};
         console.log('Successfully created new user:', userRecord.uid);
         this.response.message = userRecord.uid;
         this.response.status = 200;
-        this.firebase.sendData('Users',userRecord.uid,{key:btoa(password),typeDoc,doc,rol})
+        this.firebase.sendData('Users',userRecord.uid,{key:btoa(password),typeDoc,doc,rol,DoCountry})
         this.firebase.sendData('Country',DoCountry,{country,typeDoCountry,DoCountry});
       })
       .catch((error) => {
